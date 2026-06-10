@@ -1,0 +1,17 @@
+name: Daily Seoul Childcare Report
+on:
+  schedule:
+    - cron: '0 22 * * *'  # 매일 한국시간 오전 7시 (UTC 22:00)
+jobs:
+  send-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram
+        run: |
+          python3 report.py
+      - uses: actions/checkout@v3
+      - name: Run report
+        run: python3 report.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
